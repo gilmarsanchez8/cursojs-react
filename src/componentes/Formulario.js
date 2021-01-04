@@ -1,7 +1,9 @@
 import React, {Fragment, useState} from 'react'
 import {calcularTotal} from '../helpers'
 
-const Formulario = ({cantidad, guardarCantidad, plazo, guardarPlazo}) => {
+const Formulario = (props) => {
+
+    const {cantidad, guardarCantidad, plazo, guardarPlazo, guardarTotal, guardarCargando} = props;
 
     //Definir state
     const [error, guardarError] = useState(false);
@@ -19,9 +21,20 @@ const Formulario = ({cantidad, guardarCantidad, plazo, guardarPlazo}) => {
         //Eliminar mensaje de error previo
         guardarError(false);
 
-        //Realizar la cotización
-        const total = calcularTotal(cantidad, plazo);
-    
+        //Habilitar spinner
+        guardarCargando(true);
+
+        setTimeout(() => {
+
+            //Realizar la cotización
+            const total = calcularTotal(cantidad, plazo);
+            
+            guardarTotal(total);
+            
+            //Deshabilitar spinner
+            guardarCargando(false);
+
+        }, 3000);
     }
     return ( 
         <Fragment>
